@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="ranking-chart.css"/>
+</head>
+
+<style>
+    .body {
+        text-align: center;
+    }
+
+    .rank-chart {
+        overflow: hidden;
+        position: absolute;
+        background-color: honeydew;
+        border: 2px solid grey;
+        border-radius: 10px;
+        width: 800px;
+        top: 50%;
+        left: 50%;
+        margin-top: -50%;
+        margin-left: -400px;
+        transition: margin-top 1s;
+    }
+
+</style>
+<body style="background-color: gainsboro">
+
+<div id="rank-chart" class="rank-chart"></div>
+
+</body>
+<script src="jquery/jquery.js"></script>
+<script src="ranking-chart.js"></script>
+<script src="data.js"></script>
+<script>
+    var container = $('.rank-chart');
+    rc = RankingChart(container,
+            day_rank,
+            {
+                titleTxt: '日排行名',
+                titleTxtColor: '#197EE8',
+                titleColor: 'gainsboro',
+                itemNoBgColor: '#F5E401',
+                itemNoColor: 'black',
+                itemNameColor: '#24ADFF',
+                itemBarColor: '#B1D6FF',
+                itemValueColor: 'black'
+            });
+    container.css('margin-top', -(container.height() / 2));
+
+var loadNewData = function(container, data, settings){
+    var deferred = $.Deferred();
+    rc.perLoading();
+    setTimeout(function () {
+        rc.changeData(data,settings);
+        container.css('margin-top', -(container.height() / 2));
+        setTimeout(function(){
+            deferred.resolve();
+        }, 1000 * 2);
+    }, 1000 * 3);
+    return deferred.promise();
+};
+
+setTimeout(function(){
+    $.when(loadNewData(container, math_rank, {
+        titleTxt: '周排行名',
+        titleTxtColor: '#197EE8',
+        titleColor: 'white',
+        itemNoBgColor: '#F5E401',
+        itemNoColor: 'black',
+        itemNameColor: '#24ADFF',
+        itemBarColor: 'red',
+        itemValueColor: 'black'
+
+    })).then(function(){
+        return loadNewData(container, year_data, {
+            titleTxt: '年排行',
+            titleTxtColor: '#197EE8'
+        })
+    }).then(function(){
+        return loadNewData(container, all_data, {
+            titleTxt: '全部排行',
+            titleTxtColor: '#197EE8'
+        })
+    }).then(function(){
+        return loadNewData(container, day_rank, {
+            titleTxt: '日排行名',
+            itemNoBgColor: 'black',
+            itemNoColor: 'white',
+            itemBarColor: 'yellow'
+        })
+    })
+},1000*2);
+
+</script>
+</html>
