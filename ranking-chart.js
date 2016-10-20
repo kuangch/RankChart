@@ -32,12 +32,13 @@
         var mSettings = {
             titleTxt: 'Title',
             titleTxtColor: '#197EE8',
-            titleColor: 'gainsboro',
+            titleColor: 'white',
             itemNoBgColor: '#F5E401',
             itemNoColor: 'black',
             itemNameColor: 'black',
             itemBarColor:'#B1D6FF',
-            itemValueColor: 'black'
+            itemValueColor: 'black',
+            itemValueShowKiloCharacter: true
         };
 
 
@@ -56,6 +57,29 @@
             configCustomSetting(arguments[2]);
         }
 
+        function addKiloCharacter(str) {
+            var iNum = str.length%3;
+            var prev = '';
+            var arr = [];
+            var iNow = 0;
+            var tmp = '';
+            if(iNum !=0) {
+                prev = str.substring(0,iNum);
+                arr.push(prev);
+            }
+            str = str.substring(iNum);
+            for(var i=0;i<str.length;i++) {
+                iNow++;
+                tmp +=str[i];
+                if(iNow ==3 && tmp) {
+                    arr.push(tmp);
+                    tmp = '';
+                    iNow = 0;
+                }
+            }
+            return arr.join(',');
+        }
+
         /*
         add data item
          */
@@ -66,7 +90,7 @@
             var dom_name = item.find('.name');
             dom_name.html(name);
             dom_name.attr('title', name);
-            item.find('.value').html(value);
+            item.find('.value').html(mSettings.itemValueShowKiloCharacter ? addKiloCharacter(value.toString()): value);
 
             // must be set timeout that it can play transition animate
             setTimeout(function(){
