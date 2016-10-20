@@ -13,7 +13,7 @@
     var rank_chart_item_html = '';
     rank_chart_item_html += '<div class="rank-chart-item">';
     rank_chart_item_html += '   <div class="serial-number"></div>';
-    rank_chart_item_html += '   <a class="name"></a>';
+    rank_chart_item_html += '   <a class="name" href="#"></a>';
     rank_chart_item_html += '   <div class="bar-container">';
     rank_chart_item_html += '       <div class="value-bar"></div>';
     rank_chart_item_html += '   </div>';
@@ -143,6 +143,7 @@
         var loading = function () {
             title_container.find('.name>strong').html('正在加载数据...');
             item_container.find('.name').html('-- + -- + --');
+            item_container.find('.name').attr('title', '');
             item_container.find('.value').html('---');
             var bars = item_container.find('.bar-container .value-bar');
             var len = bars.length;

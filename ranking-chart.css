@@ -38,6 +38,7 @@
     width: 20%;
     overflow: hidden;
     text-overflow: ellipsis;
+    text-decoration: none;
     vertical-align: top;
     white-space: nowrap;
     font-size: 14px;
